@@ -1,192 +1,178 @@
 # Finanças Pro
 
-API do projeto Finanças Pro - Controle de Despesas Pessoais
+API do projeto Finanças Pro - Controle de Despesas pessoais
 
 ## Requisitos
 
-- [] CRUD de Categorias
-- [] CRUD de Movimentações
-- [] CRUD de Usuário
-- [] Autenticação
-- [] Dashboard
+- [ ] CRUD de Categorias 
+- [ ] CRUD de Movimentações
+- [ ] CRUD de Usuários
+- [ ] Autenticação
+- [ ] Dashboard
 
 ## Documentação
 
 ### Endpoints
 
-- [Listar Categoria](#listar-categorias)
-- [Cadastrar Categoria](#cadastrar-categoria) 
+- [Listar Categorias](#listar-categorias)
+- [Cadastrar Categoria](#cadastrar-categoria)
 - [Detalhes da Categoria](#detalhes-da-categoria)
 - [Apagar Categoria](#apagar-categoria)
 - [Atualizar Categoria](#atualizar-categoria)
 
-
 ### Listar Categorias
 
-`GET` / Categoria
+`GET` /categoria
 
-Retorna uma Array com todas as categorias cadastradas
+Retorna um array com todas as categorias cadastradas.
 
-### Exemplo de Respostas 
+#### Exemplo de Resposta
 
 ```js
 [
     {
         "id": 1,
         "nome": "Alimentação",
-        "icone": "fast-food",
+        "icone": "fast-food"
     },
     {
         "id": 2,
         "nome": "Educação",
-        "icone": "book",
-    },
+        "icone": "book"
+    }
 ]
-
 ```
 
-#### Código de status
+#### Código de Status
 
-| código | descrição 
+| código | descrição
 |--------|-----------
-| `200`  | Categorias retornadas com sucesso.
-| `401`  | Não autorizado. Você precisa estar logado.
+|200|Categorias retornadas com sucesso
+|401|Usuário não autenticado. Realize autenticação em /login
 
---------
+---
 
-### Cadastrar Categoria 
+### Cadastrar Categoria
 
-`POST` / categoria
+`POST` /categoria
 
-Cadastrar uma nova vategoria para um usuario logado com os dados enviados com o corpo da requisição.
+Cadastrar uma nova categoria para o usuário logado com os dados enviados no corpo da requisição.
 
-#### Corpo da requisição
+#### Corpo da Requisição
 
-| campo    | tipo     | obrigatório | descrição
-|----------|----------|:-------------:|-----------
-| nome| string | ✅ |um nome curto para a categoria 
-| icone   | string | ❌ |O nome do icone conforme Material Icons
-
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|-----------
+|nome|string|✅| Um nome curto para a categoria
+|icone| string | ❌ | O nome do ícone conforme Material Icons
 
 ```js
 {
     "nome": "Alimentação",
-    "icone": "fast-food",
+    "icone": "fast-food"
 }
-
 ```
 
-### Exemplo de Respostas 
+#### Exemplo de Resposta
 
 ```js
-[
-    {
-        "id": 1,
-        "nome": "Alimentação",
-        "icone": "fast-food",
-    },
-    {
-        "id": 2,
-        "nome": "Educação",
-        "icone": "book",
-    },
-]
-
+{
+    "id": 1,
+    "nome": "Alimentação",
+    "icone": "fast-food"
+}
 ```
 
-#### Código de status
+#### Código de Status
 
-| código | descrição 
+| código | descrição
 |--------|-----------
-| `201`  | Categorias cadastrada com sucesso.
-| `400`  |  Erro na requisição. Verifique os campos enviados e tente novamente.
-| `401`  | Não autorizado. Você precisa estar logado.
+|201|Categoria cadastrada com sucesso
+|400|Validação falhou. Verifique as regras para o corpo da requisição
+|401|Usuário não autenticado. Realize autenticação em /login
 
---------
-
+---
 
 ### Detalhes da Categoria
-`GET`/categoria/`{id}`
 
-Retorna as informações detalhadas de uma categoria específica pelo seu ID informado no parametro path.
+`GET` /categoria/`{id}`
 
-### Exemplo de Respostas 
+Retorna os dados detalhados da categoria com o `id` informado no parâmetro de path.
 
+### Exemplo de Resposta
 ```js
-// Requisição para /categoria/1
-    {
-        "id": 1,
-        "nome": "Alimentação",
-        "icone": "fast-food",
-    },
-
+// requisição para /categoria/1
+{
+    "id": 1,
+    "nome": "Alimentação",
+    "icone": "fast-food"
+}
 ```
 
-#### Código de status
+#### Código de Status
 
-| código | descrição 
+| código | descrição
 |--------|-----------
-| `200`  | Dados da Categoria retornados  com sucesso.
-| `401`  | Não autorizado. Você precisa estar logado.
-| `404`  | A Categoria não foi encontrada. Certifique-se se o id é válido.
+|200|Dados da categoria retornados com sucesso
+|401|Usuário não autenticado. Realize autenticação em /login
+|404|Não existe categoria com o `id` informado. Consulte lista em /categoria
 
---------    
+---
 
-### Apagar Categoria 
+### Apagar Categoria
 
 `DELETE` /categoria/`{id}`
 
-Apaga a categoria  referenciada pelo ID fornecido no parâmetro do path.
+Apaga a categoria indicada pelo `id` enviado no parâmetro de path.
 
-#### Código de status
+#### Código de Status
 
-| código | descrição 
+| código | descrição
 |--------|-----------
-| `204`  | Categoria  apagada com sucesso.
-| `401`  | Não autorizado. Você precisa estar logado.
-| `404`  | A Categoria não foi encontrada. Certifique-se se o id é válido.
+|204|Categoria apagada com sucesso
+|401|Usuário não autenticado. Realize autenticação em /login
+|404|Não existe categoria com o `id` informado. Consulte lista em /categoria
 
--------- 
+---
 
 ### Atualizar Categoria
 
 `PUT` /categoria/`{id}`
 
-Atualiza a Categoria referenciada pelo ID fornecido no path, utilizando os novos dados enviados pela requisição
+Atualizar os dados da categoria com o `id` informado no path, utilizando os novos dados enviados no corpo da requisição.
 
-#### Corpo da requisição
+#### Corpo da Requisição
 
-| campo    | tipo     | obrigatório | descrição
-|----------|----------|:-------------:|-----------
-| nome| string | ✅ |um nome curto para a categoria 
-| icone   | string | ✅ |O nome do icone conforme Material Icons
+| campo | tipo | obrigatório | descrição
+|-------|------|:-------------:|-----------
+|nome|string|✅| Um nome curto para a categoria
+|icone| string | ✅ | O nome do ícone conforme Material Icons
 
 ```js
 {
     "nome": "Alimentação",
-    "icone": "fast-food",
+    "icone": "fast-food"
 }
-
 ```
+
+#### Exemplo de Resposta
 
 ```js
-    {
-        "id": 1,
-        "nome": "Alimentação",
-        "icone": "fast-food",
-    },
-
+{
+    "id": 1,
+    "nome": "Alimentação",
+    "icone": "fast-food"
+}
 ```
 
-#### Código de status
+#### Código de Status
 
-| código | descrição 
+| código | descrição
 |--------|-----------
-| `200`  | Categoria atualizada com sucesso 
-| `400`  | Erro na requisição. Verifique os campos enviados e tente novamente.
-| `404`  | A Categoria não foi encontrada. Certifique-se se o id é válido.
-
-
+|200|Categoria atualizada com sucesso
+|400|Validação falhou. Verifique as regras para o corpo da requisição
+|401|Usuário não autenticado. Realize autenticação em /login
+|404|Não existe categoria com o `id` informado. Consulte lista em /categoria
+---
 
 
 
