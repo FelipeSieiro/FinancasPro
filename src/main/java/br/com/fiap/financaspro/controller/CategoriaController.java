@@ -1,5 +1,8 @@
 package br.com.fiap.financaspro.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +41,10 @@ public class CategoriaController {
 
   
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     public Categoria create(@RequestBody Categoria categoria) { // binding
         log.info("cadastrando categoria {} ", categoria);
-        repository.save(categoria);
-        return categoria;
+        return repository.save(categoria);
     }
 
 
@@ -58,27 +60,23 @@ public class CategoriaController {
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> destroy(@PathVariable Long id) {
+    @ResponseStatus(NO_CONTENT)
+    public void destroy(@PathVariable Long id) {
         log.info("apagando categoria");
 
         verificarSeExisteCategoria(id);
-        
         repository.deleteById(id);
-        return ResponseEntity.noContent().build();
-
     }
 
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody Categoria categoria){
+    public Categoria update(@PathVariable Long id, @RequestBody Categoria categoria){
         log.info("atualizando categoria com id {} para {}", id, categoria);
         
-        verificarSeExisteCategoria(id);
-                        
+        verificarSeExisteCategoria(id);        
         categoria.setId(id);
-        repository.save(categoria);
-        return ResponseEntity.ok(categoria);
+        return repository.save(categoria);
     }
 
 
