@@ -29,17 +29,15 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("null")
 public class CategoriaController {
 
-
-    @Autowired // envia mudanças para o banco de dados automaticamente
+    @Autowired
     CategoriaRepository repository;
 
     @GetMapping
     public List<Categoria> index() {
-        return repository.findAll() ; //retorna lista de categoria do banco de dados
+        return repository.findAll();
 
     }
 
-  
     @PostMapping
     @ResponseStatus(CREATED)
     public Categoria create(@RequestBody Categoria categoria) { // binding
@@ -47,17 +45,16 @@ public class CategoriaController {
         return repository.save(categoria);
     }
 
-
     @GetMapping("{id}")
     public ResponseEntity<Categoria> show(@PathVariable Long id) {
         log.info("buscando categoria por id {}", id);
 
         return repository
-            .findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
-    }
+                .findById(id)
+                .map(ResponseEntity::ok) // reference method
+                .orElse(ResponseEntity.notFound().build());
 
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
@@ -68,25 +65,21 @@ public class CategoriaController {
         repository.deleteById(id);
     }
 
-
-
     @PutMapping("{id}")
-    public Categoria update(@PathVariable Long id, @RequestBody Categoria categoria){
+    public Categoria update(@PathVariable Long id, @RequestBody Categoria categoria) {
         log.info("atualizando categoria com id {} para {}", id, categoria);
-        
-        verificarSeExisteCategoria(id);        
+
+        verificarSeExisteCategoria(id);
         categoria.setId(id);
         return repository.save(categoria);
     }
 
-
-
     private void verificarSeExisteCategoria(Long id) {
-            repository
-            .findById(id)
-            .orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Não existe categoria com o `id` informado. Consulte lista em /categoria"
-            ));
+        repository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Não existe categoria com o id informado. Consulte lista em /categoria"));
     }
-}   
+
+}
